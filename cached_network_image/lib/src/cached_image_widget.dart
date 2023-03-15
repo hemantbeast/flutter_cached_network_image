@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cached_network_image_platform_interface/cached_network_image_platform_interface.dart';
+import 'package:cached_network_image_platform_interface/types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -201,6 +202,10 @@ class CachedNetworkImage extends StatelessWidget {
   /// Will resize the image and store the resized image in the disk cache.
   final int? maxHeightDiskCache;
 
+  /// Function which is called after loading the image failed.
+  /// It prevents rethrow from being called and receives the error object.
+  final ErrorListener? errorListener;
+
   /// CachedNetworkImage shows a network image using a caching mechanism. It also
   /// provides support for a placeholder, showing an error and fading into the
   /// loaded image. Next to that it supports most features of a default Image
@@ -234,6 +239,7 @@ class CachedNetworkImage extends StatelessWidget {
     this.cacheKey,
     this.maxWidthDiskCache,
     this.maxHeightDiskCache,
+    this.errorListener,
     ImageRenderMethodForWeb imageRenderMethodForWeb =
         ImageRenderMethodForWeb.HtmlImage,
   })  : _image = CachedNetworkImageProvider(
@@ -244,6 +250,7 @@ class CachedNetworkImage extends StatelessWidget {
           imageRenderMethodForWeb: imageRenderMethodForWeb,
           maxWidth: maxWidthDiskCache,
           maxHeight: maxHeightDiskCache,
+          errorListener: errorListener,
         ),
         super(key: key);
 
